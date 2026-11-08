@@ -5,15 +5,24 @@
        default-locale="en-GB">
 
   <info>
-    <title>Modified Harvard - No Initial Dots (Custom)</title>
-    <id>http://www.zotero.org/styles/modified-harvard-no-initial-dots-custom</id>
-    <link href="http://www.zotero.org/styles/modified-harvard-no-initial-dots-custom" rel="self"/>
+    <title>Modified Harvard - No Initial Dots</title>
+    <id>http://www.zotero.org/styles/modified-harvard-no-initial-dots</id>
+
+    <link href="http://www.zotero.org/styles/modified-harvard-no-initial-dots"
+          rel="self"/>
+
+    <author>
+      <name>Rabia Shahid</name>
+    </author>
+
     <category citation-format="author-date"/>
+
     <summary>
-      Modified Harvard style: author initials without dots, year in parentheses,
-      sentence-case article titles, italicized title-case journal and book titles,
-      and volume followed by colon and pages.
+      Harvard style with initials without dots, year in parentheses,
+      sentence-case article titles, italicized journal and book titles,
+      and volume:pages formatting.
     </summary>
+
     <updated>2026-11-08T00:00:00+00:00</updated>
   </info>
 
@@ -29,8 +38,6 @@
   <macro name="author">
     <names variable="author">
       <name
-        name-as-sort-order="all"
-        sort-separator=" "
         initialize="true"
         initialize-with=""
         delimiter=", "
@@ -58,7 +65,7 @@
     </group>
   </macro>
 
-  <!-- IN-TEXT CITATIONS -->
+  <!-- IN-TEXT CITATION -->
   <citation et-al-min="4" et-al-use-first="3">
     <sort>
       <key macro="author"/>
@@ -88,37 +95,27 @@
       <choose>
 
         <!-- BOOK -->
-
         <if type="book">
-
           <group delimiter=" ">
-
             <text macro="author"/>
 
             <group prefix="(" suffix=")">
               <text macro="year"/>
             </group>
 
-            <group delimiter=", ">
-              <text variable="title"
-                    font-style="italic"
-                    text-case="title"/>
-              <text variable="edition"
-                    suffix=" edn."/>
-            </group>
+            <text variable="title"
+                  font-style="italic"
+                  text-case="title"/>
+
+            <text variable="edition" suffix=" edn."/>
 
             <text macro="publisher"/>
-
           </group>
-
         </if>
 
-        <!-- CHAPTER / CONFERENCE PAPER -->
-
-        <else-if type="chapter paper-conference">
-
+        <!-- BOOK CHAPTER -->
+        <else-if type="chapter">
           <group delimiter=" ">
-
             <text macro="author"/>
 
             <group prefix="(" suffix=")">
@@ -129,17 +126,11 @@
                   text-case="sentence"/>
 
             <group delimiter=" ">
-
               <text value="In:"/>
 
               <names variable="editor">
-                <name
-                  name-as-sort-order="all"
-                  sort-separator=" "
-                  initialize="true"
-                  initialize-with=""
-                  delimiter=", "
-                  delimiter-precedes-last="never"/>
+                <name initialize="true"
+                      initialize-with=""/>
                 <label form="short"
                        prefix=" ("
                        suffix=")"/>
@@ -148,7 +139,6 @@
               <text variable="container-title"
                     font-style="italic"
                     text-case="title"/>
-
             </group>
 
             <text macro="publisher"/>
@@ -159,15 +149,11 @@
                      suffix=" "/>
               <text variable="page"/>
             </group>
-
           </group>
-
         </else-if>
 
         <!-- JOURNAL ARTICLE -->
-
         <else-if type="article-journal">
-
           <group delimiter=" ">
 
             <text macro="author"/>
@@ -189,55 +175,9 @@
 
               <group delimiter="">
                 <text value=":"/>
-
                 <choose>
-
                   <if variable="page">
                     <text variable="page"/>
                   </if>
-
                   <else>
-                    <text variable="article-number"/>
-                  </else>
-
-                </choose>
-
-              </group>
-
-            </group>
-
-            <text variable="DOI"
-                  prefix="https://doi.org/"/>
-
-          </group>
-
-        </else-if>
-
-        <!-- DEFAULT TYPE -->
-
-        <else>
-
-          <group delimiter=" ">
-
-            <text macro="author"/>
-
-            <group prefix="(" suffix=")">
-              <text macro="year"/>
-            </group>
-
-            <text variable="title"
-                  font-style="italic"/>
-
-            <text macro="publisher"/>
-
-          </group>
-
-        </else>
-
-      </choose>
-
-    </layout>
-
-  </bibliography>
-
-</style>
+                    <text 
