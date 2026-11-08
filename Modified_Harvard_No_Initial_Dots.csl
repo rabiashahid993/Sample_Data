@@ -7,20 +7,19 @@
   <info>
     <title>Modified Harvard - No Initial Dots</title>
     <id>http://www.zotero.org/styles/modified-harvard-no-initial-dots</id>
-
-    <link href="http://www.zotero.org/styles/modified-harvard-no-initial-dots"
-          rel="self"/>
+    <link href="http://www.zotero.org/styles/modified-harvard-no-initial-dots" rel="self"/>
 
     <author>
       <name>Rabia Shahid</name>
     </author>
 
     <category citation-format="author-date"/>
+    <category field="generic-base"/>
 
     <summary>
       Harvard style with initials without dots, year in parentheses,
-      sentence-case article titles, italicized journal and book titles,
-      and volume:pages formatting.
+      sentence case article titles, italic journal and book titles,
+      and volume:pages format.
     </summary>
 
     <updated>2026-11-08T00:00:00+00:00</updated>
@@ -31,17 +30,19 @@
       <term name="and">and</term>
       <term name="et-al">et al.</term>
       <term name="edition" form="short">edn.</term>
+      <term name="page-range-delimiter">–</term>
     </terms>
   </locale>
 
-  <!-- AUTHOR -->
   <macro name="author">
-    <names variable="author">
-      <name
-        initialize="true"
-        initialize-with=""
-        delimiter=", "
-        delimiter-precedes-last="never"/>
+    <names variable="author"
+           et-al-min="4"
+           et-al-use-first="3">
+      <name initialize-with=""
+            initialize="true"
+            delimiter=", "
+            and="text"
+            delimiter-precedes-last="never"/>
       <et-al font-style="italic"/>
       <substitute>
         <names variable="editor"/>
@@ -50,14 +51,12 @@
     </names>
   </macro>
 
-  <!-- YEAR -->
   <macro name="year">
     <date variable="issued">
       <date-part name="year"/>
     </date>
   </macro>
 
-  <!-- PUBLISHER -->
   <macro name="publisher">
     <group delimiter=": ">
       <text variable="publisher-place"/>
@@ -65,7 +64,6 @@
     </group>
   </macro>
 
-  <!-- IN-TEXT CITATION -->
   <citation et-al-min="4" et-al-use-first="3">
     <sort>
       <key macro="author"/>
@@ -80,7 +78,6 @@
     </layout>
   </citation>
 
-  <!-- BIBLIOGRAPHY -->
   <bibliography hanging-indent="true"
                 et-al-min="4"
                 et-al-use-first="3">
@@ -95,8 +92,11 @@
       <choose>
 
         <!-- BOOK -->
+
         <if type="book">
+
           <group delimiter=" ">
+
             <text macro="author"/>
 
             <group prefix="(" suffix=")">
@@ -107,15 +107,21 @@
                   font-style="italic"
                   text-case="title"/>
 
-            <text variable="edition" suffix=" edn."/>
+            <text variable="edition"
+                  suffix=" edn."/>
 
             <text macro="publisher"/>
+
           </group>
+
         </if>
 
         <!-- BOOK CHAPTER -->
+
         <else-if type="chapter">
+
           <group delimiter=" ">
+
             <text macro="author"/>
 
             <group prefix="(" suffix=")">
@@ -126,11 +132,13 @@
                   text-case="sentence"/>
 
             <group delimiter=" ">
+
               <text value="In:"/>
 
               <names variable="editor">
                 <name initialize="true"
-                      initialize-with=""/>
+                      initialize-with=""
+                      and="text"/>
                 <label form="short"
                        prefix=" ("
                        suffix=")"/>
@@ -139,6 +147,7 @@
               <text variable="container-title"
                     font-style="italic"
                     text-case="title"/>
+
             </group>
 
             <text macro="publisher"/>
@@ -149,11 +158,15 @@
                      suffix=" "/>
               <text variable="page"/>
             </group>
+
           </group>
+
         </else-if>
 
         <!-- JOURNAL ARTICLE -->
+
         <else-if type="article-journal">
+
           <group delimiter=" ">
 
             <text macro="author"/>
@@ -179,5 +192,67 @@
                   <if variable="page">
                     <text variable="page"/>
                   </if>
-                  <else>
-                    <text 
+                  <else-if variable="article-number">
+                    <text variable="article-number"/>
+                  </else-if>
+                </choose>
+              </group>
+
+            </group>
+
+          </group>
+
+        </else-if>
+
+        <!-- CONFERENCE PAPER -->
+
+        <else-if type="paper-conference">
+
+          <group delimiter=" ">
+
+            <text macro="author"/>
+
+            <group prefix="(" suffix=")">
+              <text macro="year"/>
+            </group>
+
+            <text variable="title"
+                  text-case="sentence"/>
+
+            <text variable="container-title"
+                  font-style="italic"/>
+
+            <text macro="publisher"/>
+
+          </group>
+
+        </else-if>
+
+        <!-- DEFAULT -->
+
+        <else>
+
+          <group delimiter=" ">
+
+            <text macro="author"/>
+
+            <group prefix="(" suffix=")">
+              <text macro="year"/>
+            </group>
+
+            <text variable="title"
+                  font-style="italic"/>
+
+            <text macro="publisher"/>
+
+          </group>
+
+        </else>
+
+      </choose>
+
+    </layout>
+
+  </bibliography>
+
+</style>
